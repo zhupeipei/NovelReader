@@ -75,6 +75,8 @@ public class FindFragment extends BaseFragment {
                             intent = new Intent(getContext(), BookListActivity.class);
                             startActivity(intent);
                             break;
+                        case LISTEN:
+                            break;
                     }
                 }
         );
