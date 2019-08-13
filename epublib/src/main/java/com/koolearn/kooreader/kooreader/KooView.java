@@ -80,8 +80,16 @@ public final class KooView extends ZLTextView {
         ), x, y); //y 传入actionId,x,y的值 进行功能显示
     }
 
+    // 单次点击
     @Override
     public void onFingerSingleTap(int x, int y) {
+        // 1. 如果有文字标注的内容 那么先去除该内容
+        if (getCountOfSelectedWords() > 0) {
+            Application.runAction(ActionCode.SELECTION_CLEAR);
+            Application.hideActivePopup();
+            return;
+        }
+
         Application.hideActivePopup(); // 隐藏popup
 //        Application.runAction(ActionCode.SELECTION_CLEAR);
 
