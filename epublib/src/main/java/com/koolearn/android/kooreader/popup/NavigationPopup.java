@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,8 +17,12 @@ import com.koolearn.android.util.OrientationUtil;
 import com.koolearn.klibrary.core.application.ZLApplication;
 import com.koolearn.klibrary.text.view.ZLTextView;
 import com.koolearn.klibrary.text.view.ZLTextWordCursor;
+import com.koolearn.klibrary.ui.android.library.ZLAndroidApplication;
 import com.koolearn.kooreader.kooreader.ActionCode;
 import com.koolearn.kooreader.kooreader.KooReaderApp;
+import com.kooreader.util.BaseUtil;
+import com.kooreader.util.NavigationUtil;
+import com.kooreader.util.StatusBarManager;
 import com.ninestars.android.R;
 public final class NavigationPopup extends ZLApplication.PopupPanel implements View.OnClickListener {
     public final static String ID = "NavigationPopup";
@@ -77,9 +81,29 @@ public final class NavigationPopup extends ZLApplication.PopupPanel implements V
 
     private void setStatusBarVisibility(boolean visible) {
         if (visible) {
-            myActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN); // 设置状态栏
+            NavigationUtil.hideNavigationBar(myActivity.getWindow(), false);
+            fitStatusBar(false, true);
         } else {
-            myActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+            NavigationUtil.hideNavigationBar(myActivity.getWindow(), true);
+            fitStatusBar(true, false);
+        }
+    }
+
+    private void fitStatusBar(boolean hideStatusBar, boolean darkStatusBar) {
+        Window window = myActivity.getWindow();
+        if (window == null)
+            return;
+        StatusBarManager.canChangeColor(window);
+        StatusBarManager.transparencyBar(myActivity);
+        if (hideStatusBar) {
+            StatusBarManager.hideStatusBar(window, true);
+        } else {
+            StatusBarManager.hideStatusBar(window, false);
+            if (darkStatusBar) {
+                StatusBarManager.setStatusBarColor(window, true);
+            } else {
+                StatusBarManager.setStatusBarColor(window, false);
+            }
         }
     }
 
@@ -100,6 +124,10 @@ public final class NavigationPopup extends ZLApplication.PopupPanel implements V
         activity.getLayoutInflater().inflate(R.layout.mainmenu, root);
         myWindow = (NavigationWindow) root.findViewById(R.id.navigation_panel);
         myWindowTop = (MainMenuWindow) root.findViewById(R.id.mainmenuwindow);
+        RelativeLayout rl = root.findViewById(R.id.relative1);
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) rl.getLayoutParams();
+        lp.topMargin = BaseUtil.getStatusBarHeight(ZLAndroidApplication.getContext());
+
         init();
         initClick();
     }

@@ -20,6 +20,7 @@ import com.koolearn.klibrary.text.view.ZLTextVideoRegionSoul;
 import com.koolearn.klibrary.text.view.ZLTextView;
 import com.koolearn.klibrary.text.view.ZLTextWordRegionSoul;
 import com.koolearn.klibrary.text.view.style.ZLTextStyleCollection;
+import com.koolearn.klibrary.ui.android.library.ZLAndroidApplication;
 import com.koolearn.klibrary.ui.android.library.ZLAndroidLibrary;
 import com.koolearn.kooreader.bookmodel.FBHyperlinkType;
 import com.koolearn.kooreader.kooreader.options.ColorProfile;
@@ -28,6 +29,7 @@ import com.koolearn.kooreader.kooreader.options.PageTurningOptions;
 import com.koolearn.kooreader.kooreader.options.ViewOptions;
 import com.koolearn.kooreader.util.FixedTextSnippet;
 import com.koolearn.kooreader.util.TextSnippet;
+import com.kooreader.util.BaseUtil;
 
 public final class KooView extends ZLTextView {
     private final KooReaderApp myReader;
@@ -376,7 +378,7 @@ public final class KooView extends ZLTextView {
 
     @Override
     public int getTopMargin() { // 顶部距离
-        return (int) (ZLAndroidLibrary.Instance().getDPI() * 27);
+        return BaseUtil.getStatusBarHeight(ZLAndroidApplication.getContext()) + BaseUtil.dp2px(ZLAndroidApplication.getContext(), 10); // (int) (ZLAndroidLibrary.Instance().getDPI() * 27);
     }
 
     @Override

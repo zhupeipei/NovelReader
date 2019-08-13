@@ -22,10 +22,12 @@ import com.koolearn.klibrary.core.util.SystemInfo;
 import com.koolearn.klibrary.core.util.ZLColor;
 import com.koolearn.klibrary.core.view.ZLPaintContext;
 import com.koolearn.klibrary.ui.android.image.ZLAndroidImageData;
+import com.koolearn.klibrary.ui.android.library.ZLAndroidApplication;
 import com.koolearn.klibrary.ui.android.library.ZLAndroidLibrary;
 import com.koolearn.klibrary.ui.android.util.ZLAndroidColorUtil;
 import com.koolearn.kooreader.bookmodel.TOCTree;
 import com.koolearn.kooreader.kooreader.KooReaderApp;
+import com.kooreader.util.BaseUtil;
 
 import java.util.List;
 
@@ -538,6 +540,10 @@ public final class ZLAndroidPaintContext extends ZLPaintContext {
 
     @Override
     public void drawFooter(String time, String page) {
+        int powerMarginBottom = BaseUtil.dp2px(ZLAndroidApplication.getContext(), 16 + 9);
+        int footerMarginBottom = BaseUtil.dp2px(ZLAndroidApplication.getContext(), 16);
+        int marginTop = BaseUtil.getStatusBarHeight(ZLAndroidApplication.getContext()) + BaseUtil.dp2px(ZLAndroidApplication.getContext(), 5);
+
         mPower = myReader.getBatteryLevel();
 
         /**
@@ -559,7 +565,7 @@ public final class ZLAndroidPaintContext extends ZLPaintContext {
                 mBatteryStroke / 2 + mPowerPadding + mPowerHeight);
 
         myCanvas.save();
-        myCanvas.translate(leftMargin, getHeight() - 13 * dp_1); //y 平移
+        myCanvas.translate(leftMargin, getHeight() - powerMarginBottom); //y 平移
         myCanvas.drawRoundRect(mBatteryRect, 2f, 2f, mBatteryPaint); // 画电池轮廓需要考虑 画笔的宽度 画圆角矩形
         myCanvas.drawRoundRect(mCapRect, 2f, 2f, mBatteryPaint);// 画电池盖
         myCanvas.drawRect(mPowerRect, mPowerPaint);// 画电量
@@ -584,11 +590,13 @@ public final class ZLAndroidPaintContext extends ZLPaintContext {
             mBookTitle = mBookToc.substring(0, 11) + "...";
         }
 
-        myCanvas.drawText(mBookTitle, leftMargin, 13 * dp_1, myTopPaint);
-        myCanvas.drawText(mBookToc, getWidth() - myTopPaint.measureText(mBookToc) - rightMargin, 13 * dp_1, myTopPaint);
+        // 顶部 标题和章节
+        myCanvas.drawText(mBookTitle, leftMargin, marginTop, myTopPaint);
+        myCanvas.drawText(mBookToc, getWidth() - myTopPaint.measureText(mBookToc) - rightMargin, marginTop, myTopPaint);
 
-        myCanvas.drawText(time, 45 * dp_1, getHeight() - 4 * dp_1, myFooterPaint);
-        myCanvas.drawText(page, getWidth() - myFooterPaint.measureText(page) - rightMargin, getHeight() - 4 * dp_1, myFooterPaint);
+        // 底部时间和进度百分比
+        myCanvas.drawText(time, 45 * dp_1, getHeight() - footerMarginBottom, myFooterPaint);
+        myCanvas.drawText(page, getWidth() - myFooterPaint.measureText(page) - rightMargin, getHeight() - footerMarginBottom, myFooterPaint);
     }
 
     @Override

@@ -15,12 +15,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--miui刘海屏适配-->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape"/>
+
+        <!--vivo双面屏适配标识-->
+        <meta-data android:name="android.vivo_multidisplay_support"
+            android:value="true" />
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -12,7 +12,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -47,6 +46,8 @@ import com.koolearn.kooreader.book.Bookmark;
 import com.koolearn.kooreader.bookmodel.BookModel;
 import com.koolearn.kooreader.kooreader.ActionCode;
 import com.koolearn.kooreader.kooreader.KooReaderApp;
+import com.kooreader.util.NavigationUtil;
+import com.kooreader.util.StatusBarManager;
 import com.ninestars.DialogActivity;
 import com.ninestars.ReaderEvent;
 import com.ninestars.android.R;
@@ -180,10 +181,15 @@ public final class KooReader extends KooReaderMainActivity implements ZLApplicat
         myKooReaderApp.setWindow(this);
         myKooReaderApp.initWindow();
 
-        getWindow().setFlags( //y 全屏
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN // 设置窗体全屏
-        );
+//        getWindow().setFlags( //y 全屏
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN // 设置窗体全屏
+//        );
+
+        NavigationUtil.hideNavigationBar(getWindow(), true);
+        fitStatusBar(true, false);
+
+
         if (myKooReaderApp.getPopupById(NavigationPopup.ID) == null) {
             new NavigationPopup(myKooReaderApp);
         }
@@ -270,6 +276,27 @@ public final class KooReader extends KooReaderMainActivity implements ZLApplicat
                     openBook(myOpenBookIntent, null, true);
                 }
             });
+        }
+
+        NavigationUtil.hideNavigationBar(getWindow(), true);
+        fitStatusBar(true, false);
+    }
+
+    private void fitStatusBar(boolean hideStatusBar, boolean darkStatusBar) {
+        Window window = getWindow();
+        if (window == null)
+            return;
+        StatusBarManager.canChangeColor(window);
+        StatusBarManager.transparencyBar(this);
+        if (hideStatusBar) {
+            StatusBarManager.hideStatusBar(window, true);
+        } else {
+            StatusBarManager.hideStatusBar(window, false);
+            if (darkStatusBar) {
+                StatusBarManager.setStatusBarColor(window, true);
+            } else {
+                StatusBarManager.setStatusBarColor(window, false);
+            }
         }
     }
 
