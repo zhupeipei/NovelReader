@@ -353,9 +353,10 @@ public abstract class ZLTextView extends ZLTextViewBase {
             return null;
         }
 
-        if (which == mySelection.getCursorInMovement()) {
-            return mySelection.getCursorInMovementPoint();
-        }
+        // 如果有这个代码的话 会是的光标不和文字对齐
+//        if (which == mySelection.getCursorInMovement()) {
+//            return mySelection.getCursorInMovementPoint();
+//        }
 
         if (which == SelectionCursor.Which.Left) {
             if (mySelection.hasPartBeforePage(page)) {
@@ -508,6 +509,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
             }
         }
 
+        // 画选中的文字
         for (ZLTextHighlighting h : hilites) {
             int mode = Hull.DrawMode.None;
 
@@ -528,12 +530,13 @@ public abstract class ZLTextView extends ZLTextViewBase {
             }
         }
 
-        final ZLTextRegion outlinedElementRegion = getOutlinedRegion(page);
-        if (outlinedElementRegion != null && myShowOutline) {
-            context.setLineColor(getSelectionBackgroundColor());
-            outlinedElementRegion.hull().draw(context, Hull.DrawMode.Outline);
-        }
+//        final ZLTextRegion outlinedElementRegion = getOutlinedRegion(page);
+//        if (outlinedElementRegion != null && myShowOutline) {
+//            context.setLineColor(getSelectionBackgroundColor());
+//            outlinedElementRegion.hull().draw(context, Hull.DrawMode.Outline);
+//        }
 
+        // 画选中文字两边的线
         drawSelectionCursor(context, page, SelectionCursor.Which.Left);
         drawSelectionCursor(context, page, SelectionCursor.Which.Right);
 
@@ -1079,6 +1082,7 @@ public abstract class ZLTextView extends ZLTextViewBase {
                     }
                 }
             }
+            //如果当前已经读取到了该段落最后位置，则获取下一段落
             nextParagraph = result.isEndOfParagraph() && result.nextParagraph();
             if (nextParagraph && result.getParagraphCursor().isEndOfSection()) {
                 if (page.Column0Height == 0 && page.twoColumnView() && !page.LineInfos.isEmpty()) {

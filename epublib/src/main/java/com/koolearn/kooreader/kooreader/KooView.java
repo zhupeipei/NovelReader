@@ -237,41 +237,41 @@ public final class KooView extends ZLTextView {
      */
     @Override
     public boolean onFingerLongPress(int x, int y) {
-//        myReader.runAction(ActionCode.HIDE_TOAST);
-//        final ZLTextRegion region = findRegion(x, y, maxSelectionDistance(), ZLTextRegion.AnyRegionFilter);
-//        if (region != null) {
-//            final ZLTextRegion.Soul soul = region.getSoul();
-//            boolean doSelectRegion = false;
-//            if (soul instanceof ZLTextWordRegionSoul) {
-//                switch (myReader.MiscOptions.WordTappingAction.getValue()) {
-//                    case startSelecting:
-//                        myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
-//                        initSelection(x, y);
-//                        final SelectionCursor.Which cursor = findSelectionCursor(x, y);
-//                        if (cursor != null) {
-//                            moveSelectionCursorTo(cursor, x, y);
-//                        }
-//                        return true;
-//                    case selectSingleWord:
-//                    case openDictionary:
-//                        doSelectRegion = true;
-//                        break;
-//                }
-////            } else if (soul instanceof ZLTextImageRegionSoul) { //y 长按选择图片
-////                doSelectRegion =
-////                        myReader.ImageOptions.TapAction.getValue() !=
-////                                ImageOptions.TapActionEnum.doNothing;
-//            } else if (soul instanceof ZLTextHyperlinkRegionSoul) {
-//                doSelectRegion = true;
-//            }
-//
-//            if (doSelectRegion) {
-//                outlineRegion(region);
-//                myReader.getViewWidget().reset();
-//                myReader.getViewWidget().repaint();
-//                return true;
-//            }
-//        }
+        myReader.runAction(ActionCode.HIDE_TOAST);
+        final ZLTextRegion region = findRegion(x, y, maxSelectionDistance(), ZLTextRegion.AnyRegionFilter);
+        if (region != null) {
+            final ZLTextRegion.Soul soul = region.getSoul();
+            boolean doSelectRegion = false;
+            if (soul instanceof ZLTextWordRegionSoul) {
+                switch (myReader.MiscOptions.WordTappingAction.getValue()) {
+                    case startSelecting:
+                        myReader.runAction(ActionCode.SELECTION_HIDE_PANEL);
+                        initSelection(x, y);
+                        final SelectionCursor.Which cursor = findSelectionCursor(x, y);
+                        if (cursor != null) {
+                            moveSelectionCursorTo(cursor, x, y);
+                        }
+                        return true;
+                    case selectSingleWord:
+                    case openDictionary:
+                        doSelectRegion = true;
+                        break;
+                }
+//            } else if (soul instanceof ZLTextImageRegionSoul) { //y 长按选择图片
+//                doSelectRegion =
+//                        myReader.ImageOptions.TapAction.getValue() !=
+//                                ImageOptions.TapActionEnum.doNothing;
+            } else if (soul instanceof ZLTextHyperlinkRegionSoul) {
+                doSelectRegion = true;
+            }
+
+            if (doSelectRegion) {
+                outlineRegion(region);
+                myReader.getViewWidget().reset();
+                myReader.getViewWidget().repaint();
+                return true;
+            }
+        }
         return false;
     }
 
